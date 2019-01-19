@@ -7,7 +7,7 @@ Graphic LCD controller: KS0108 128x64 /CS1,/CS2
 Image width: 128 pixels
 Image height: 64 pixels
 Color depth: 1 bits/pixel
-Imported image file name: Untitled-1.bmp
+Imported image file name: t.bmp
 
 Exported monochrome image data size:
 1028 bytes for displays organized as horizontal rows of bytes
@@ -17,7 +17,7 @@ Exported monochrome image data size:
 #ifndef _T_INCLUDED_
 #define _T_INCLUDED_
 
-extern flash unsigned char untitled-1[];
+extern flash unsigned char t[];
 
 #endif
 

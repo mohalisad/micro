@@ -1,9 +1,0 @@
-VERSION:3 SOURCE_TIMESTAMP:4E3184D6
-NODE:I LEVEL:0 LINE:25 "C:\cvavr\inc\mega32a.h"
-NODE:I LEVEL:0 LINE:28 "C:\cvavr\inc\glcd.h"
-NODE:I LEVEL:0 LINE:32 "C:\cvavr\inc\font5x7.h"
-NODE:I LEVEL:0 LINE:34 "C:\Users\mohalisad\Documents\Micro\t.c"
-NODE:F LEVEL:0 LINE:39 "ext_int0_isr(void)"
-NODE:F LEVEL:0 LINE:46 "ext_int1_isr(void)"
-NODE:F LEVEL:0 LINE:53 "ext_int2_isr(void)"
-NODE:F LEVEL:0 LINE:59 "main(void)"

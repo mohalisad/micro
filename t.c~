@@ -14,7 +14,7 @@ Exported monochrome image data size:
 1028 bytes for displays organized as rows of vertical bytes.
 ****************************************************************************/
 
-flash unsigned char tasvir[]=
+flash unsigned char t[]=
 {
 /* Image width: 128 pixels */
 0x80, 0x00,

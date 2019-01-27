@@ -17,7 +17,6 @@ Declare Sub Calibration_x2
 Declare Sub Calibration_y2
 Declare Sub Calibration
 Declare Sub Paint
-Declare Sub Refresh_UI
 Declare Sub Calib_Point (byval a as Integer,byval b as Integer )
 Declare Sub Sideber(byval _X as Byte,Byval _Y as Byte)
 
@@ -29,8 +28,10 @@ GoSub Main
 
 Dim X As Word
 Dim Y As Word
-'Dim x_old as Word
-'Dim y_old as Word
+Dim x_old as Word
+Dim y_old as Word
+x_old = 0
+y_old = 0
 Dim X_e As Single
 Dim X1 As Word
 Dim X2 As Word
@@ -156,14 +157,6 @@ Sub Calibration:
     End If
 END Sub
 
-Sub Refresh_UI:
-    if Darkmode = 1 Then
-        SHOWPIC 0,0,inv
-    Else
-        SHOWPIC 0,0,org
-    End If
-END Sub
-
 Sub Sideber(byval _X as Byte,Byval _Y as Byte)
     If _X<22 Then
         If _Y<22 Then'save
@@ -172,29 +165,21 @@ Sub Sideber(byval _X as Byte,Byval _Y as Byte)
 
         Else'invert
             Darkmode = Not Darkmode
-            Pcolor = 255 - Pcolor
-            Call Refresh_UI
+            if Darkmode = 1 Then
+                SHOWPIC 0,0,inv
+            Else
+                SHOWPIC 0,0,org
+            End If
         End If
     Else
         If _Y<22 Then'pen
-            if Darkmode = 1 Then
-                Pcolor = 0
-            Else
-                Pcolor = 255
-            End If
+
         Elseif _Y<42 Then'erase
-            if Darkmode = 1 Then
-                Pcolor = 255
-            Else
-                Pcolor = 0
-            End If
+
         Else'erase all
-            Call Refresh_UI
+
         End If
     End If
-    Do
-        GoSub Scan
-    Loop Until Y<50
 End Sub
 
 Sub Paint:
@@ -230,9 +215,11 @@ Sub Paint:
         If X < 128 And Y < 64 Then
             If X<45 Then
                 Call Sideber(X,Y)
-            Else
-                Pset X , Y , Pcolor
             End If
+            'Pset X , Y , Pcolor
+            line(x_old,y_old)-(X,Y), Pcolor
+            x_old = X
+            y_old = Y
         End If
     Loop
 END Sub

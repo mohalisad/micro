@@ -1,6 +1,6 @@
-Report       : prj
+Report       : linei
 Date         : 01-27-2019
-Time         : 16:53:59
+Time         : 17:10:02
 
 Compiler     : BASCOM-AVR LIBRARY V 2.0.7.8
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : 17C6 hex  -> Will fit into ROM
-ROMIMAGE     :  6086 dec
-FLASH USED   :  18  %
+ROMIMAGE     : 18D0 hex  -> Will fit into ROM
+ROMIMAGE     :  6352 dec
+FLASH USED   :  19  %
 BAUD         : 9600 Baud
 XTAL         : 8000000 Hz
 BAUD error   : 0.16%
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 820 hex
 Framesize    : 40 hex
 Framestart   : 7A0 hex
-Space left   :  1822  dec
+Space left   :  1818  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -93,16 +93,18 @@ PWM0                             Byte              005C          92
 ERR                              Bit [2]           0006          6 
 X                                Word              0065          101 
 Y                                Word              0067          103 
-X_E                              Single            0069          105 
-X1                               Word              006D          109 
-X2                               Word              006F          111 
-Y_E                              Single            0071          113 
-Y1                               Word              0075          117 
-Y2                               Word              0077          119 
-VAR                              Word              0079          121 
-VAR1                             Single            007B          123 
-PCOLOR                           Byte              007F          127 
-DARKMODE                         Bit [7]           0080          128 
+X_OLD                            Word              0069          105 
+Y_OLD                            Word              006B          107 
+X_E                              Single            006D          109 
+X1                               Word              0071          113 
+X2                               Word              0073          115 
+Y_E                              Single            0075          117 
+Y1                               Word              0079          121 
+Y2                               Word              007B          123 
+VAR                              Word              007D          125 
+VAR1                             Single            007F          127 
+PCOLOR                           Byte              0083          131 
+DARKMODE                         Bit [7]           0084          132 
 
 --------------------------------------------------------------------------------
 Constant                         Value

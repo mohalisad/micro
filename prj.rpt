@@ -1,6 +1,6 @@
 Report       : prj
 Date         : 01-27-2019
-Time         : 16:53:59
+Time         : 23:28:49
 
 Compiler     : BASCOM-AVR LIBRARY V 2.0.7.8
 Processor    : M32
@@ -8,9 +8,9 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : 17C6 hex  -> Will fit into ROM
-ROMIMAGE     :  6086 dec
-FLASH USED   :  18  %
+ROMIMAGE     : 1C18 hex  -> Will fit into ROM
+ROMIMAGE     :  7192 dec
+FLASH USED   :  21  %
 BAUD         : 9600 Baud
 XTAL         : 8000000 Hz
 BAUD error   : 0.16%
@@ -21,7 +21,7 @@ S-Stacksize  : 40 hex
 S-Stackstart : 820 hex
 Framesize    : 40 hex
 Framestart   : 7A0 hex
-Space left   :  1822  dec
+Space left   :  1206  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -102,7 +102,15 @@ Y2                               Word              0077          119
 VAR                              Word              0079          121 
 VAR1                             Single            007B          123 
 PCOLOR                           Byte              007F          127 
-DARKMODE                         Bit [7]           0080          128 
+DCOLOR                           Byte              0080          128 
+DARKMODE                         Bit [7]           0081          129 
+MYDISP                           Byte(10)          0082          130 
+I                                Byte              02E4          740 
+J                                Byte              02E5          741 
+A                                Byte              02E6          742 
+B                                Byte              02E7          743 
+C                                Byte              02E8          744 
+CHECK                            Bit [6]           0081          129 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -559,4 +567,5 @@ ADCD                             not used
 COMPARE1                         not used
 PWM1B                            not used
 PWM0                             not used
+CHECK                            not used
 

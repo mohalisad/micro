@@ -20,6 +20,8 @@ Declare Sub Paint
 Declare Sub Refresh_UI
 Declare Sub Calib_Point (byval a as Integer,byval b as Integer )
 Declare Sub Sideber(byval _X as Byte,Byval _Y as Byte)
+Declare Sub Draw(byval _X as Byte,Byval _Y as Byte)
+Declare Sub Load_Storage
 
 Config Graphlcd = 128 * 64sed , Dataport = Portd , Controlport = Portb , Ce = 1 , Ce2 = 2 , Cd = 5 , Rd = 4 , Reset = 0 , Enable = 3
 Setfont Font8x8
@@ -29,8 +31,6 @@ GoSub Main
 
 Dim X As Word
 Dim Y As Word
-'Dim x_old as Word
-'Dim y_old as Word
 Dim X_e As Single
 Dim X1 As Word
 Dim X2 As Word
@@ -40,7 +40,14 @@ Dim Y2 As Word
 Dim Var As Word
 Dim Var1 As Single
 Dim Pcolor As Byte
+Dim Dcolor As Byte
 Dim Darkmode As Boolean
+Dim MyDisp(10,61) as Byte
+Dim i as Byte
+Dim j as Byte
+Dim a as Byte
+Dim b as Byte
+Dim c as Byte
 
 Sub Main:
     GoSub Calibration
@@ -169,25 +176,18 @@ Sub Sideber(byval _X as Byte,Byval _Y as Byte)
         If _Y<22 Then'save
 
         Elseif _Y<42 Then'open
-
+            Call Load_Storage
         Else'invert
             Darkmode = Not Darkmode
             Pcolor = 255 - Pcolor
+            Dcolor = 255 - Dcolor
             Call Refresh_UI
         End If
     Else
         If _Y<22 Then'pen
-            if Darkmode = 1 Then
-                Pcolor = 0
-            Else
-                Pcolor = 255
-            End If
+            Pcolor = Dcolor
         Elseif _Y<42 Then'erase
-            if Darkmode = 1 Then
-                Pcolor = 255
-            Else
-                Pcolor = 0
-            End If
+            Pcolor = 255 - Dcolor
         Else'erase all
             Call Refresh_UI
         End If
@@ -197,10 +197,48 @@ Sub Sideber(byval _X as Byte,Byval _Y as Byte)
     Loop Until Y<50
 End Sub
 
-Sub Paint:
+Sub Draw(byval _X as Byte,Byval _Y as Byte)
+    Dim  check as Boolean
+    Pset _X , _Y , Pcolor
+    a = _X-46
+    c = a mod 8
+    a = a/8
+    b = _Y-1
+    if Pcolor = Dcolor Then
+        set MyDisp (a,b).c
+    Else
+        reset MyDisp (a,b).c
+    End if
+End Sub
+
+
+Sub Load_Storage
+    For i = 46 to 126
+       a = i-46
+       c = a mod 8
+       a = a/8
+       c = 2^c
+        For j = 1 to 62
+            b = j - 1
+            b = MyDisp(a,b) And c
+            If c = b Then
+                Pset i , j , Dcolor
+            End If
+        next
+    next
+End Sub
+
+Sub Paint
     Cls
     Pcolor = 255
+    Dcolor = 255
     Darkmode = 0
+    Call Refresh_UI
+    for i = 0 to 10
+        for j = 0 to 61
+            MyDisp(i,j) = 7
+        next
+    next
     Do
         GoSub Scan
         If X1 < X2 Then
@@ -227,11 +265,11 @@ Sub Paint:
             Y = 64 - y
         End If
 
-        If X < 128 And Y < 64 Then
+        If X < 127 And Y < 63 And Y > 0 Then '81*62
             If X<45 Then
                 Call Sideber(X,Y)
             Else
-                Pset X , Y , Pcolor
+                Call Draw(X,Y)
             End If
         End If
     Loop

@@ -17,11 +17,14 @@ Declare Sub Calibration_x2
 Declare Sub Calibration_y2
 Declare Sub Calibration
 Declare Sub Paint
+Declare Sub Calib_Point (byval a as Integer,byval b as Integer )
 
 Config Graphlcd = 128 * 64sed , Dataport = Portd , Controlport = Portb , Ce = 1 , Ce2 = 2 , Cd = 5 , Rd = 4 , Reset = 0 , Enable = 3
 Setfont Font8x8
-
+tasvir:
+   $bgf "t.bgf"
 GoSub Main
+
 
 Dim X As Word
 Dim Y As Word
@@ -35,8 +38,12 @@ Dim Var As Word
 Dim Var1 As Single
 
 Sub Main:
-    GoSub Calibration
-    GoSub Paint
+    SHOWPIC 0,0,tasvir
+    DO
+
+    LOOP
+    'GoSub Calibration
+    'GoSub Paint
 END Sub
 
 Sub Scan:
@@ -74,12 +81,16 @@ Sub Read_Y:
     Y = Getadc(2)
 END Sub
 
-Sub Calibration_x1_y1:
+Sub Calib_Point (byval a as Integer,byval b as Integer)
     Cls
-    Pset 0 , 0 , 255
-    Pset 1 , 0 , 255
-    Pset 0 , 1 , 255
-    Pset 1 , 1 , 255
+    Pset a   , b   , 255
+    Pset a+1 , b   , 255
+    Pset a   , b+1 , 255
+    Pset a+1 , b+1 , 255
+END Sub
+
+Sub Calibration_x1_y1:
+    Call Calib_Point(0,0)
     Do
         GoSub Scan
     Loop Until X>50
@@ -96,11 +107,7 @@ END Sub
 
 
 Sub Calibration_x2:
-    Cls
-    Pset 126 , 0 , 255
-    Pset 127 , 0 , 255
-    Pset 126 , 1 , 255
-    Pset 127 , 1 , 255
+    Call Calib_Point(126,0)
     Do
         GoSub Scan
     Loop Until X>50
@@ -115,11 +122,7 @@ Sub Calibration_x2:
 END Sub
 
 Sub Calibration_y2:
-    Cls
-    Pset 0 , 62 , 255
-    Pset 1 , 62 , 255
-    Pset 0 , 63 , 255
-    Pset 1 , 63 , 255
+    Call Calib_Point(0,62)
     Do
         GoSub Scan
     Loop Until Y>50

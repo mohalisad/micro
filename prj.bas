@@ -1,9 +1,9 @@
 $regfile = "m32def.dat"
 $crystal = 8000000
 
-$hwstack = 64
-$swstack = 64
-$framesize = 64
+$hwstack = 256
+$swstack = 256
+$framesize = 500
 
 $lib "glcdKS108.LBX"
 $include "font8x8.font"
@@ -21,13 +21,15 @@ Declare Sub Refresh_UI
 Declare Sub Calib_Point (byval a as Integer,byval b as Integer )
 Declare Sub Sideber(byval _X as Byte,Byval _Y as Byte)
 Declare Sub Draw(byval _X as Byte,Byval _Y as Byte)
-Declare Sub Load_Storage
+Declare Sub Redraw
+Declare Sub Clear_mydisp
+Declare Sub Saveimg
+Declare Sub Loadimg
 
 Config Graphlcd = 128 * 64sed , Dataport = Portd , Controlport = Portb , Ce = 1 , Ce2 = 2 , Cd = 5 , Rd = 4 , Reset = 0 , Enable = 3
 Setfont Font8x8
 
 GoSub Main
-
 
 Dim X As Word
 Dim Y As Word
@@ -41,13 +43,16 @@ Dim Var As Word
 Dim Var1 As Single
 Dim Pcolor As Byte
 Dim Dcolor As Byte
+Dim ndcolor as Byte
 Dim Darkmode As Boolean
-Dim MyDisp(10,61) as Byte
-Dim i as Byte
+Dim MyDisp(682) as Byte'11 62
+Dim i as Integer
 Dim j as Byte
 Dim a as Byte
-Dim b as Byte
+Dim b as Integer
 Dim c as Byte
+
+
 
 Sub Main:
     GoSub Calibration
@@ -174,14 +179,16 @@ END Sub
 Sub Sideber(byval _X as Byte,Byval _Y as Byte)
     If _X<22 Then
         If _Y<22 Then'save
-
+            Call Saveimg
         Elseif _Y<42 Then'open
-            Call Load_Storage
+            Call Loadimg
+            Call Redraw
         Else'invert
             Darkmode = Not Darkmode
             Pcolor = 255 - Pcolor
             Dcolor = 255 - Dcolor
             Call Refresh_UI
+            Call Redraw
         End If
     Else
         If _Y<22 Then'pen
@@ -190,6 +197,7 @@ Sub Sideber(byval _X as Byte,Byval _Y as Byte)
             Pcolor = 255 - Dcolor
         Else'erase all
             Call Refresh_UI
+            Call Clear_mydisp
         End If
     End If
     Do
@@ -198,33 +206,61 @@ Sub Sideber(byval _X as Byte,Byval _Y as Byte)
 End Sub
 
 Sub Draw(byval _X as Byte,Byval _Y as Byte)
-    Dim  check as Boolean
+    Dim temp as Integer
     Pset _X , _Y , Pcolor
-    a = _X-46
-    c = a mod 8
-    a = a/8
-    b = _Y-1
+    b = _X
+    b = b - 46
+    c = b mod 8
+    b = b/8
+    b = b*62
+    temp = _Y
+    b = b+temp
     if Pcolor = Dcolor Then
-        set MyDisp (a,b).c
+        set MyDisp (b).c
     Else
-        reset MyDisp (a,b).c
+        reset MyDisp (b).c
     End if
 End Sub
 
-
-Sub Load_Storage
+Sub Redraw
+    ndcolor = 255-Dcolor
     For i = 46 to 126
-       a = i-46
-       c = a mod 8
-       a = a/8
-       c = 2^c
+        a = i-46
+        b = a mod 8
+        a = a/8
+        if b = 0 then
+            c = 1
+        Else
+            c = 2*c
+        End if
         For j = 1 to 62
-            b = j - 1
-            b = MyDisp(a,b) And c
+            b = a*62
+            b = b+j
+            b = MyDisp(b) And c
             If c = b Then
                 Pset i , j , Dcolor
+            Else
+                Pset i , j , ndcolor
             End If
         next
+    next
+End Sub
+
+Sub Clear_mydisp
+    for i = 1 to 682
+       MyDisp(i) = 0
+    next
+End Sub
+
+Sub Saveimg
+    for i = 1 to 682
+       WRITEEEPROM MyDisp(i), i
+    next
+End Sub
+
+Sub Loadimg
+    for i = 1 to 682
+       READEEPROM MyDisp(i), i
     next
 End Sub
 
@@ -234,11 +270,7 @@ Sub Paint
     Dcolor = 255
     Darkmode = 0
     Call Refresh_UI
-    for i = 0 to 10
-        for j = 0 to 61
-            MyDisp(i,j) = 7
-        next
-    next
+    Call Clear_mydisp
     Do
         GoSub Scan
         If X1 < X2 Then

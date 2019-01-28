@@ -1,6 +1,6 @@
 Report       : prj
-Date         : 01-27-2019
-Time         : 23:28:49
+Date         : 01-28-2019
+Time         : 11:22:40
 
 Compiler     : BASCOM-AVR LIBRARY V 2.0.7.8
 Processor    : M32
@@ -8,20 +8,20 @@ SRAM         : 800 hex
 EEPROM       : 400 hex
 ROMSIZE      : 8000 hex
 
-ROMIMAGE     : 1C18 hex  -> Will fit into ROM
-ROMIMAGE     :  7192 dec
-FLASH USED   :  21  %
+ROMIMAGE     : 1C8E hex  -> Will fit into ROM
+ROMIMAGE     :  7310 dec
+FLASH USED   :  22  %
 BAUD         : 9600 Baud
 XTAL         : 8000000 Hz
 BAUD error   : 0.16%
 
 Stack start  : 85F hex
-Stack size   : 40 hex
-S-Stacksize  : 40 hex
-S-Stackstart : 820 hex
-Framesize    : 40 hex
-Framestart   : 7A0 hex
-Space left   :  1206  dec
+Stack size   : 100 hex
+S-Stacksize  : 100 hex
+S-Stackstart : 760 hex
+Framesize    : 1F4 hex
+Framestart   : 46C hex
+Space left   :  309  dec
 
 LCD DB7      : PORTB.7
 LCD DB6      : PORTB.6
@@ -103,14 +103,15 @@ VAR                              Word              0079          121
 VAR1                             Single            007B          123 
 PCOLOR                           Byte              007F          127 
 DCOLOR                           Byte              0080          128 
-DARKMODE                         Bit [7]           0081          129 
-MYDISP                           Byte(10)          0082          130 
-I                                Byte              02E4          740 
-J                                Byte              02E5          741 
-A                                Byte              02E6          742 
-B                                Byte              02E7          743 
-C                                Byte              02E8          744 
-CHECK                            Bit [6]           0081          129 
+NDCOLOR                          Byte              0081          129 
+DARKMODE                         Bit [7]           0082          130 
+MYDISP                           Byte(682)         0083          131 
+I                                Integer           032D          813 
+J                                Byte              032F          815 
+A                                Byte              0330          816 
+B                                Integer           0331          817 
+C                                Byte              0333          819 
+TEMP                             Integer           0334          820 
 
 --------------------------------------------------------------------------------
 Constant                         Value
@@ -464,7 +465,7 @@ OCR2UB                           1
 TCR2UB                           0
 _DATE_FORMAT                     0
 _DATE_SEPARATOR                  92
-_GSTRBUF                         1952
+_GSTRBUF                         1132
 _DECIMALPOINT                    46
 _RTSCTS                          0
 _RTSCTS1                         0
@@ -497,9 +498,9 @@ _PBIN_EXTENDED                   0
 _BIGSTRINGS                      0
 SEROUT_EXTPULL                   1
 _FPROTECT                        0
-_HWSTACK_LOW                     &H081F
-_SWSTACK_LOW                     &H07E0
-_FRAME_HIGH                      &H07E1
+_HWSTACK_LOW                     &H075F
+_SWSTACK_LOW                     &H0660
+_FRAME_HIGH                      &H0661
 _XMEGA                           0
 _GLCD_PORT                       &H12
 _GLCD_PORT_DDR                   &H11
@@ -567,5 +568,4 @@ ADCD                             not used
 COMPARE1                         not used
 PWM1B                            not used
 PWM0                             not used
-CHECK                            not used
 
